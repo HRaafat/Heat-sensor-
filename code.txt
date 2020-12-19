@@ -1,0 +1,28 @@
+int main()
+{
+	//initializing hardware
+	LCD_init();
+	ADC_init(single);
+	ADC_setRefVoltage(External_Vref);
+	
+	float temp=0;
+	LCD_sendString("The T: ");
+	
+	while(1)
+	{
+		ADC_start(0);//start channel zero
+		while (ADC_getADCFlag()==0);//wait for ADC to complete convention
+ 		//get value
+		temp=ADC_getData();
+		//calculate temperature from digital input
+		temp = (150*temp)/1023;
+		//display temperature on LCD
+		LCD_sendNum(temp);
+		//clear reading
+		LCD_GotoXY(9,0);
+		LCD_backSpace();
+		LCD_backSpace();
+		LCD_backSpace();
+
+	}
+}
